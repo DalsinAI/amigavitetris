@@ -1,0 +1,26 @@
+diff --git a/src/textgfx/ansi.c b/src/textgfx/ansi.c
+index 31c70c2..a6645c3 100644
+--- a/src/textgfx/ansi.c
++++ b/src/textgfx/ansi.c
+@@ -24,7 +24,9 @@ int win_y = 0;
+ void textgfx_init()
+ {
+ 	set_input_mode();
+-#ifdef UNIX
++#if defined(__amigaos__)
++	printf("\033[0 p");	/* hide cursor (console.device) */
++#elif defined(UNIX)
+ 	printf("\033[?25l");	/* hide cursor */
+ #endif
+ }
+@@ -37,7 +39,9 @@ void textgfx_end()
+ 	putch(' ');	/* switch back from acs */
+ 	restore_input_mode();
+ 	printf(
+-#ifdef UNIX
++#if defined(__amigaos__)
++	"\033[ p"
++#elif defined(UNIX)
+ 	"\033[?25h"
+ #endif
+ 	"\033[m\n");
