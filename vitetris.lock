@@ -1,0 +1,6 @@
+# What this port builds on: fetched at build time, never kept here.
+# vitetris 0.59.1 (BSD 2-clause), Victor Geraldsson's text-mode Tetris,
+# vicgeralds/vitetris master 744b509 (8 Feb 2025)
+VT_GIT=https://github.com/vicgeralds/vitetris.git
+VT_COMMIT=744b5090a6d1315cd7b818e5276ed90ba0f3df23
+VT_VERSION=0.59.1

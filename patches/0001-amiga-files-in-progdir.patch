@@ -1,0 +1,43 @@
+diff --git a/src/cfgfile.c b/src/cfgfile.c
+index ff0184f..e286ddb 100644
+--- a/src/cfgfile.c
++++ b/src/cfgfile.c
+@@ -2,7 +2,7 @@
+ #include <string.h>
+ #include <ctype.h>
+ #include "config.h"
+-#ifdef UNIX
++#if defined(UNIX) && !defined(__amigaos__)
+ #include <stdlib.h>
+ #include <unistd.h>
+ #include <sys/types.h>
+@@ -28,7 +28,9 @@ void writehiscores(FILE *fp);
+ 
+ void setcfgfilename(const char *argv0)
+ {
+-#ifdef UNIX
++#if defined(__amigaos__)
++	/* CONFIG_FILENAME is already the whole name, in PROGDIR: */
++#elif defined(UNIX)
+ 	struct passwd *pwd;
+ 	const char *s = getenv("HOME");
+ 	if (!s && (pwd = getpwuid(getuid())))
+diff --git a/src/config2.h b/src/config2.h
+index f51f472..185ceb8 100644
+--- a/src/config2.h
++++ b/src/config2.h
+@@ -14,7 +14,13 @@
+ #define UNIX 1
+ #endif
+ 
+-#if UNIX
++#if UNIX && defined(__amigaos__)
++/* AmigaOS: options and high scores in the program's own drawer */
++#define CONFIG_FILENAME "PROGDIR:vitetris.cfg"
++#ifndef HISCORE_FILENAME
++#define HISCORE_FILENAME "PROGDIR:vitetris-hiscores"
++#endif
++#elif UNIX
+ #define CONFIG_FILENAME ".vitetris"
+ #else
+ #define CONFIG_FILENAME "vitetris.cfg"
